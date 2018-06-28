@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.imooc.model.User">
+    <id column="userId" jdbcType="SMALLINT" property="userid" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="tele" jdbcType="VARCHAR" property="tele" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="dept" jdbcType="VARCHAR" property="dept" />
+    <result column="managerId" jdbcType="SMALLINT" property="managerid" />
+    <result column="roleId" jdbcType="BIT" property="roleid" />
+    <result column="online" jdbcType="BIT" property="online" />
+    <result column="createT" jdbcType="TIMESTAMP" property="createt" />
+    <result column="modifyT" jdbcType="TIMESTAMP" property="modifyt" />
+    <result column="lastloginT" jdbcType="TIMESTAMP" property="lastlogint" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    userId, userName, password, name, tele, email, company, dept, managerId, roleId, 
+    online, createT, modifyT, lastloginT, count, enable
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where userId = #{userid,jdbcType=SMALLINT}
+  </select>
+  <select id="getAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    <where>
+     <if test="userName != null">
+       and userName like '${userName}%'
+      </if>
+      <if test="userName != null">
+       and company =#{company,jdbcType=VARCHAR}
+      </if>
+       <if test="userId != null">
+       and userId in ${userId}
+      </if>
+    </where> 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+    delete from user
+    where userId = #{userid,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.imooc.model.User">
+    insert into user (userId, userName, password, 
+      name, tele, email, 
+      company, dept, managerId, 
+      roleId, online, createT, 
+      modifyT, lastloginT, count, 
+      enable)
+    values (#{userid,jdbcType=SMALLINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{tele,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{company,jdbcType=VARCHAR}, #{dept,jdbcType=VARCHAR}, #{managerid,jdbcType=SMALLINT}, 
+      #{roleid,jdbcType=BIT}, #{online,jdbcType=BIT}, #{createt,jdbcType=TIMESTAMP}, 
+      #{modifyt,jdbcType=TIMESTAMP}, #{lastlogint,jdbcType=TIMESTAMP}, #{count,jdbcType=INTEGER}, 
+      #{enable,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imooc.model.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="username != null">
+        userName,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="tele != null">
+        tele,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="dept != null">
+        dept,
+      </if>
+      <if test="managerid != null">
+        managerId,
+      </if>
+      <if test="roleid != null">
+        roleId,
+      </if>
+      <if test="online != null">
+        online,
+      </if>
+      <if test="createt != null">
+        createT,
+      </if>
+      <if test="modifyt != null">
+        modifyT,
+      </if>
+      <if test="lastlogint != null">
+        lastloginT,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=SMALLINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tele != null">
+        #{tele,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="dept != null">
+        #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="managerid != null">
+        #{managerid,jdbcType=SMALLINT},
+      </if>
+      <if test="roleid != null">
+        #{roleid,jdbcType=BIT},
+      </if>
+      <if test="online != null">
+        #{online,jdbcType=BIT},
+      </if>
+      <if test="createt != null">
+        #{createt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyt != null">
+        #{modifyt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogint != null">
+        #{lastlogint,jdbcType=TIMESTAMP},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imooc.model.User">
+    update user
+    <set>
+      <if test="username != null">
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tele != null">
+        tele = #{tele,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="dept != null">
+        dept = #{dept,jdbcType=VARCHAR},
+      </if>
+      <if test="managerid != null">
+        managerId = #{managerid,jdbcType=SMALLINT},
+      </if>
+      <if test="roleid != null">
+        roleId = #{roleid,jdbcType=BIT},
+      </if>
+      <if test="online != null">
+        online = #{online,jdbcType=BIT},
+      </if>
+      <if test="createt != null">
+        createT = #{createt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyt != null">
+        modifyT = #{modifyt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogint != null">
+        lastloginT = #{lastlogint,jdbcType=TIMESTAMP},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=BIT},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imooc.model.User">
+    update user
+    set userName = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      tele = #{tele,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      dept = #{dept,jdbcType=VARCHAR},
+      managerId = #{managerid,jdbcType=SMALLINT},
+      roleId = #{roleid,jdbcType=BIT},
+      online = #{online,jdbcType=BIT},
+      createT = #{createt,jdbcType=TIMESTAMP},
+      modifyT = #{modifyt,jdbcType=TIMESTAMP},
+      lastloginT = #{lastlogint,jdbcType=TIMESTAMP},
+      count = #{count,jdbcType=INTEGER},
+      enable = #{enable,jdbcType=BIT}
+    where userId = #{userid,jdbcType=SMALLINT}
+  </update>
+</mapper>

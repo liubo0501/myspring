@@ -1,0 +1,74 @@
+server:
+  port: 8080
+
+spring:
+    redis: 
+           database: 0  
+    # Redis服务器地址
+           host: 192.168.0.205
+    # Redis服务器连接端口
+           port: 6379  
+    # Redis服务器连接密码（默认为空）
+           password:  
+    # 连接超时时间（毫秒）
+           timeout: 0  
+    # 连接池最大连接数（使用负值表示没有限制）
+           pool:
+               max-active: 8  
+    # 连接池最大阻塞等待时间（使用负值表示没有限制）
+               max-wait: -1  
+    # 连接池中的最大空闲连接
+               max-idle: 8  
+    # 连接池中的最小空闲连接
+               min-idle: 0  
+    datasource:
+        name: test
+        url: jdbc:mysql://192.168.0.228:3306/anbot
+        username: root
+        password: anbot2017
+        # 使用druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+#    kafka:
+#        bootstrap-servers: 192.168.0.85:9092
+#        consumer: 
+#           group-id: springboot-group1
+#           auto-offset-reset: earliest
+mybatis:
+   mapper-locations: classpath:mapping/*.xml
+   type-aliases-package: com.imooc.model
+  
+logging:
+   level:
+       com.imooc.mapper: debug
+   file: logs/spring-boot-logging.log
+   
+kafka: 
+  consumer: 
+    zookeeper.connect: 192.168.0.85:2181,192.168.0.86:2181,192.168.0.87:2181
+    servers: 192.168.0.85:9092,192.168.0.86:9092,192.168.0.87:9092
+    enable.auto.commit:  true #指定消息被消费之后自动提交偏移量（即消息的编号，表示消费到了哪个位置，消费者每消费完一条消息就会向kafka服务器汇报自己消消费到的那个消息的编号，以便于下次继续消费）。
+    session.timeout: 6000
+    auto.commit.interval: 100
+    auto.offset.reset: latest
+    group.id: test4
+    concurrency: 10
+  producer:
+    servers: 192.168.0.85:9092
+    retries: 0
+    batch.size: 4096
+    linger: 1
+    buffer.memory: 40960

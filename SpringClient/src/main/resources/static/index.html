@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script type="text/javascript" src="jquery-3.3.1.min.js"> </script>
+<link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-3.1.0/jasmine_favicon.png">
+<link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-3.1.0/jasmine.css">
+
+<script type="text/javascript" src="jasmine/lib/jasmine-3.1.0/jasmine.js"></script>
+<script type="text/javascript" src="jasmine/lib/jasmine-3.1.0/jasmine-html.js"></script>
+<script type="text/javascript" src="jasmine/lib/jasmine-3.1.0/boot.js"></script>
+<body>
+<script type="text/javascript">
+// function get(){
+// 	$.getJSON("http://localhost:8080/get").then(
+// 			function(result){
+// 				console.log(result);
+// 			})				
+// }
+
+//每一个测试用例的超时时间
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
+
+// 请求的接口的前缀 // http://localhost:8080/test
+//var base = "/ajaxserverapache";
+var base = "http://localhost:8080";
+
+//测试模块
+describe("ajax跨越完全讲解", function() {
+	// 测试方法
+	it("get请求", function(done) {
+		// 服务器返回的结果
+		var result;
+
+		$.getJSON(base + "/get").then(function(jsonObj) {
+			result = jsonObj;
+		});
+
+		// 由于是异步请求，需要使用setTimeout来校验
+		setTimeout(function() {
+			expect(result).toEqual({
+				"name" : "hello"
+			});
+
+			// 校验完成，通知jasmine框架
+			done();
+		}, 100);
+	});
+	
+	// 测试方法
+	it("jsonp请求", function(done) {
+		// 服务器返回的结果
+		var result;
+
+		$.ajax({
+			url: base +"/get",
+			dataType: "jsonp",
+			jsonp: "callback2",
+			cache:true,
+			success: function(json){
+				result = json;
+			}
+		});
+
+		// 由于是异步请求，需要使用setTimeout来校验
+		setTimeout(function() {
+			expect(result).toEqual({
+				"name" : "hello"
+			});
+
+			// 校验完成，通知jasmine框架
+			done();
+		}, 100);
+	});
+
+	
+// 	it("postJson请求", function(done) {
+// 		// 服务器返回的结果
+// 		var result;
+
+// 		$.ajax({
+// 			type : "post",
+// 			url: base + "/postJson",
+// 			contentType : "application/json;charset=utf-8",
+// 			data: JSON.stringify({name: "xiaofengqing"}),
+// 			success: function(json){
+// 				result = json;
+// 			}
+// 		});
+
+// 		// 由于是异步请求，需要使用setTimeout来校验
+// 		setTimeout(function() {
+// 			expect(result).toEqual({
+// 				"data" : "postJson xiaofengqing"
+// 			});
+
+// 			// 校验完成，通知jasmine框架
+// 			done();
+// 		}, 100);
+// 	});
+	
+	
+// 	it("getCookie请求", function(done) {
+// 		// 服务器返回的结果
+// 		var result;
+
+// 		$.ajax({
+// 			type : "get",
+// 			url: base + "/getCookie",
+// 			xhrFields:{
+// 				withCredentials:true
+// 			},
+// 			success: function(json){
+// 				result = json;
+// 			}
+// 		});
+
+// 		// 由于是异步请求，需要使用setTimeout来校验
+// 		setTimeout(function() {
+// 			expect(result).toEqual({
+// 				"data" : "getCookie xiaofengqing"
+// 			});
+
+// 			// 校验完成，通知jasmine框架
+// 			done();
+// 		}, 100);
+// 	});
+
+// 	it("getHeader请求", function(done) {
+// 		// 服务器返回的结果
+// 		var result;
+
+// 		$.ajax({
+// 			type : "get",
+// 			url: base + "/getHeader",
+// 			headers:{
+// 				"x-header1" : "AAA"
+// 			},
+// 			beforeSend: function(xhr){
+// 				xhr.setRequestHeader("x-header2","BBB")
+// 			},
+// 			success: function(json){
+// 				result = json;
+// 			}
+// 		});
+
+// 		// 由于是异步请求，需要使用setTimeout来校验
+// 		setTimeout(function() {
+// 			expect(result).toEqual({
+// 				"data" : "getHeader AAA BBB"
+// 			});
+
+// 			// 校验完成，通知jasmine框架
+// 			done();
+// 		}, 100);
+// 	});
+
+});
+
+</script>
+</body>
+</html>

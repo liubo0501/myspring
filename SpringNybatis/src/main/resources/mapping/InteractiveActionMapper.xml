@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.mapper.InteractiveActionMapper">
+  <resultMap id="BaseResultMap" type="com.imooc.model.InteractiveAction">
+    <id column="actionId" jdbcType="SMALLINT" property="actionid" />
+    <result column="interestPointId" jdbcType="SMALLINT" property="interestpointid" />
+    <result column="actionType" jdbcType="BIT" property="actiontype" />
+    <result column="mediaId" jdbcType="SMALLINT" property="mediaid" />
+    <result column="serialNumber" jdbcType="INTEGER" property="serialnumber" />
+    <result column="createT" jdbcType="TIMESTAMP" property="createt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    actionId, interestPointId, actionType, mediaId, serialNumber, createT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from interactiveaction
+    where actionId = #{actionid,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+    delete from interactiveaction
+    where actionId = #{actionid,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.imooc.model.InteractiveAction">
+    insert into interactiveaction (actionId, interestPointId, actionType, 
+      mediaId, serialNumber, createT
+      )
+    values (#{actionid,jdbcType=SMALLINT}, #{interestpointid,jdbcType=SMALLINT}, #{actiontype,jdbcType=BIT}, 
+      #{mediaid,jdbcType=SMALLINT}, #{serialnumber,jdbcType=INTEGER}, #{createt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.imooc.model.InteractiveAction">
+    insert into interactiveaction
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="actionid != null">
+        actionId,
+      </if>
+      <if test="interestpointid != null">
+        interestPointId,
+      </if>
+      <if test="actiontype != null">
+        actionType,
+      </if>
+      <if test="mediaid != null">
+        mediaId,
+      </if>
+      <if test="serialnumber != null">
+        serialNumber,
+      </if>
+      <if test="createt != null">
+        createT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="actionid != null">
+        #{actionid,jdbcType=SMALLINT},
+      </if>
+      <if test="interestpointid != null">
+        #{interestpointid,jdbcType=SMALLINT},
+      </if>
+      <if test="actiontype != null">
+        #{actiontype,jdbcType=BIT},
+      </if>
+      <if test="mediaid != null">
+        #{mediaid,jdbcType=SMALLINT},
+      </if>
+      <if test="serialnumber != null">
+        #{serialnumber,jdbcType=INTEGER},
+      </if>
+      <if test="createt != null">
+        #{createt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imooc.model.InteractiveAction">
+    update interactiveaction
+    <set>
+      <if test="interestpointid != null">
+        interestPointId = #{interestpointid,jdbcType=SMALLINT},
+      </if>
+      <if test="actiontype != null">
+        actionType = #{actiontype,jdbcType=BIT},
+      </if>
+      <if test="mediaid != null">
+        mediaId = #{mediaid,jdbcType=SMALLINT},
+      </if>
+      <if test="serialnumber != null">
+        serialNumber = #{serialnumber,jdbcType=INTEGER},
+      </if>
+      <if test="createt != null">
+        createT = #{createt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where actionId = #{actionid,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imooc.model.InteractiveAction">
+    update interactiveaction
+    set interestPointId = #{interestpointid,jdbcType=SMALLINT},
+      actionType = #{actiontype,jdbcType=BIT},
+      mediaId = #{mediaid,jdbcType=SMALLINT},
+      serialNumber = #{serialnumber,jdbcType=INTEGER},
+      createT = #{createt,jdbcType=TIMESTAMP}
+    where actionId = #{actionid,jdbcType=SMALLINT}
+  </update>
+</mapper>

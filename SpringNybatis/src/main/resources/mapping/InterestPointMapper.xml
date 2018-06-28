@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.mapper.InterestPointMapper">
+  <resultMap id="BaseResultMap" type="com.imooc.model.InterestPoint">
+    <id column="interestPointId" jdbcType="SMALLINT" property="interestpointid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="mapId" jdbcType="SMALLINT" property="mapid" />
+    <result column="coordinate" jdbcType="VARCHAR" property="coordinate" />
+    <result column="iconUrl" jdbcType="VARCHAR" property="iconurl" />
+    <result column="createT" jdbcType="TIMESTAMP" property="createt" />
+    <collection property="actions" ofType="com.imooc.model.InteractiveAction">
+	    <id column="actionId" jdbcType="SMALLINT" property="actionid" />
+	    <result column="interestPointId" jdbcType="SMALLINT" property="interestpointid" />
+	    <result column="actionType" jdbcType="BIT" property="actiontype" />
+	    <result column="mediaId" jdbcType="SMALLINT" property="mediaid" />
+	    <result column="serialNumber" jdbcType="INTEGER" property="serialnumber" />
+	    <result column="createT" jdbcType="TIMESTAMP" property="createt" />
+	    <association property="media"  column="mediaId" javaType="com.imooc.model.MediaFile" >
+		    <id column="mediaId" jdbcType="INTEGER" property="mediaid" />
+		    <result column="mediaName" jdbcType="VARCHAR" property="name" />
+	    </association>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    interestPointId, name, type, mapId, coordinate, iconUrl, createT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from interestpoint
+    where interestPointId = #{interestpointid,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+    delete from interestpoint
+    where interestPointId = #{interestpointid,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.imooc.model.InterestPoint">
+    insert into interestpoint (interestPointId, name, type, 
+      mapId, coordinate, iconUrl, 
+      createT)
+    values (#{interestpointid,jdbcType=SMALLINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, 
+      #{mapid,jdbcType=SMALLINT}, #{coordinate,jdbcType=VARCHAR}, #{iconurl,jdbcType=VARCHAR}, 
+      #{createt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imooc.model.InterestPoint">
+    insert into interestpoint
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="interestpointid != null">
+        interestPointId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="mapid != null">
+        mapId,
+      </if>
+      <if test="coordinate != null">
+        coordinate,
+      </if>
+      <if test="iconurl != null">
+        iconUrl,
+      </if>
+      <if test="createt != null">
+        createT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="interestpointid != null">
+        #{interestpointid,jdbcType=SMALLINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=BIT},
+      </if>
+      <if test="mapid != null">
+        #{mapid,jdbcType=SMALLINT},
+      </if>
+      <if test="coordinate != null">
+        #{coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="iconurl != null">
+        #{iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createt != null">
+        #{createt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imooc.model.InterestPoint">
+    update interestpoint
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=BIT},
+      </if>
+      <if test="mapid != null">
+        mapId = #{mapid,jdbcType=SMALLINT},
+      </if>
+      <if test="coordinate != null">
+        coordinate = #{coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="iconurl != null">
+        iconUrl = #{iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createt != null">
+        createT = #{createt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where interestPointId = #{interestpointid,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imooc.model.InterestPoint">
+    update interestpoint
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIT},
+      mapId = #{mapid,jdbcType=SMALLINT},
+      coordinate = #{coordinate,jdbcType=VARCHAR},
+      iconUrl = #{iconurl,jdbcType=VARCHAR},
+      createT = #{createt,jdbcType=TIMESTAMP}
+    where interestPointId = #{interestpointid,jdbcType=SMALLINT}
+  </update>
+  
+   <select id="getAll" resultMap="BaseResultMap">
+    select 
+        point.interestPointId,
+        point.name,
+        point.type,
+        point.mapId,
+        point.coordinate,
+        point.iconUrl,
+        action.actionType,
+        action.mediaId,
+        action.serialNumber,
+        media.name mediaName
+     from
+    	interestpoint point,
+	    interactiveaction action 
+    left join mediafile media on action.mediaId = media.mediaId
+    where point.interestPointId = action.interestPointId
+  </select>
+</mapper>
